@@ -1,0 +1,32 @@
+{
+  "name": "ksa-site-backend",
+  "version": "1.0.0",
+  "description": "ksa site backend",
+  "main": "app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -L --delay 500ms app.ts"
+  },
+  "author": "Maarten Vercammen",
+  "license": "ISC",
+  "nodemonConfig": {
+    "ext": "ts",
+    "delay": "3",
+    "execMap": {
+      "ts": "ts-node"
+    }
+  },
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  }
+}
