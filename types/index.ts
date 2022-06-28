@@ -1,12 +1,15 @@
 ﻿export interface user {
-  id: number;
-  voornaam: string;
-  achternaam: string;
-  geboortedatum: Date;
-  straat: string;
-  huisnummer: number;
-  postcode: number;
-  plaats: string;
-  telefoonnummer: string;
-  usertype: string;
-}
+  birthdate: Date
+  city: String
+  email: String
+  firstname: String
+  id: number
+  lastname: String
+  number: number
+  password: String
+  phone: String
+  postalcode: number
+  street: String
+  typename: String
+  }
+  
