@@ -7,15 +7,16 @@ async function getUsers(onResult: (users: user[], err: Error) => void) {
   city,
   "email",
   firstname,
-  id,
+  u.id,
   lastname,
   number,
   password,
   phone,
   postalcode,
   street,
-  typename  
-  from ksa.user inner join ksa.usertype using(id)`;
+  typename 
+  from ksa.user as u inner join ksa.usertype as ut on u.usertype = ut.id`;
+
   try {
     var { rows } = await connectionPool.query(query);
     onResult(<user[]>rows, null);
@@ -25,15 +26,31 @@ async function getUsers(onResult: (users: user[], err: Error) => void) {
 }
 
 async function addUser(user: user, onResult: (err: Error) => void) {
-  const query = `INSERT into ksa.user(firstname, lastname, birthdate, email, phone, street, number, postalcode, city, password, usertype)
-  values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, (select id from ksa.usertype where typename = $11))`
+  const query = `select ksa.addUser($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
     try{
-      var {rows} = await connectionPool.query(query, [user.firstname, user.lastname, user.birthdate, user.email, user.phone, user.street, user.number, user.postalcode, user.city, user.password, user.typename])
-      onResult(null)
+      const {rows} = await connectionPool.query(query, [user.firstname, user.lastname, user.birthdate, user.email, user.phone, user.street, user.number, user.postalcode, user.city, user.password, user.typename])
+      console.log(rows[0].adduser)
+      if(rows[0].adduser == true){
+        onResult(null)
+      }else{
+        onResult(new Error('typename doesn\'t exist'))
+      }
+      
     }
     catch(err){
       onResult(err)
     }
 }
 
-export { getUsers, addUser};
+async function deleteUser(id: number, onResult: (err: Error)=>void){
+  const query = `delete from ksa.user where id = $1`;
+  try{
+    await connectionPool.query(query, [id])
+    onResult(null)
+  }
+  catch(err){
+    onResult(err)
+  }
+}
+
+export { getUsers, addUser, deleteUser};
