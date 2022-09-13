@@ -8,7 +8,7 @@ import path from 'path'
 const app = express();
 dotenv.config();
 
-const react = path.join(__dirname,'build')
+const react = path.join(__dirname,'react')
 
 app.use(express.static(react))
 app.use(cors());
