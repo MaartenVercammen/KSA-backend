@@ -3,15 +3,11 @@ import express from "express";
 import cors from "cors";
 import * as bodyParser from "body-parser";
 import userRouter from "./routes/userRouter";
-import path from 'path'
 
 const app = express();
 
 dotenv.config();
 
-const react = path.join(__dirname,'react')
-
-app.use(express.static(react))
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/user", userRouter);
