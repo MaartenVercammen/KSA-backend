@@ -1,5 +1,10 @@
 ﻿import { connectionPool } from "../database";
 import { user } from "../types";
+const { createHash } = require('crypto');
+
+function hash(string) {
+  return createHash('sha256').update(string).digest('hex');
+}
 
 async function getUsers(onResult: (users: user[], err: Error) => void) {
   const query = "select u.id, u.name, email, r.name from ksa.user as u inner join ksa.roles as r on u.role = r.id";
@@ -14,7 +19,9 @@ async function getUsers(onResult: (users: user[], err: Error) => void) {
 async function login(email: string, password: string, onResult: (user: Array<user>, err: Error) => void){
   const query = "select u.id, u.name, email, r.name as role from ksa.user as u inner join ksa.roles as r on u.role = r.id where u.email = $1 and u.password = $2"
   try{
-    var {rows} = await connectionPool.query(query, [email, password])
+    const hashedpassword = hash(password)
+    console.log(hashedpassword)
+    var {rows} = await connectionPool.query(query, [email, hashedpassword])
     onResult(rows, null)
   }catch(error){
     onResult(null, error)

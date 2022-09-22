@@ -1,10 +1,11 @@
 ﻿import express, { Request, Response, Handler } from "express";
 import * as userModel from "../model/user";
 import jwt from 'jsonwebtoken';
+import authcheck from "../model/authcheck";
 
 const userRouter = express.Router();
 
-userRouter.get("/", (req: Request, res: Response) => {
+userRouter.get("/",authcheck, (req: Request, res: Response) => {
   userModel.getUsers((users, err) => {
     if (err) {
       res.status(500).json({ message: err.message, type: "error" });
@@ -22,12 +23,13 @@ userRouter.post('/login', (req: Request, res: Response) => {
     }else{
       if(user.length > 0){
         const token = jwt.sign(user[0], process.env.MY_SECRET, { expiresIn: "1h" });
-        
+        console.log("login from " + user[0].naam + " was succesfull")
         res.cookie("token", token, {maxAge: 3600000});
         return res.status(200).json({type: "valid", user: user[0]});
       }
       else{
-        return res.status(200).json({type: "error", message: "Invalid Credantials"})
+        console.log("login from failed")
+        return res.status(500).json({type: "error", message: "Invalid Credantials"})
       }
     }
   })
