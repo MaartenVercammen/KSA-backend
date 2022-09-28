@@ -7,8 +7,8 @@ import fileRouter from "./routes/fileRouter";
 import path from "path";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-dotenv.config();
 
+dotenv.config({ path: path.join(__dirname,  `./.env.${process.env.NODE_ENV}`) });
 
 
 const app = express();

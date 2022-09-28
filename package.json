@@ -6,8 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -L --delay 500ms app.ts",
-    "build": "tsc"
+    "start": "set NODE_ENV=development&& nodemon -L --delay 500ms app.ts ",
+    "build": "set NODE_ENV=production&& nodemon -L --delay 500ms app.ts "
   },
   "author": "Maarten Vercammen",
   "license": "ISC",

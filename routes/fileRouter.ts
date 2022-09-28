@@ -2,6 +2,10 @@ import express from "express";
 import multer from 'multer';
 import fs from 'fs';
 import authcheck from "../model/authcheck";
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config({ path: path.join(__dirname,  `../.env.${process.env.NODE_ENV}`) });
 
 const fileRouter = express.Router();
 
