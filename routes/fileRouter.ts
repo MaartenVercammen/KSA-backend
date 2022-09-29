@@ -1,9 +1,10 @@
 import express from "express";
 import multer from 'multer';
 import fs from 'fs';
-import authcheck from "../model/authcheck";
+import authcheck from "../middleware/authcheck";
 import dotenv from 'dotenv'
 import path from 'path'
+import roleCheck from "../middleware/roleCheck";
 
 dotenv.config({ path: path.join(__dirname,  `../.env.${process.env.NODE_ENV}`) });
 
@@ -32,7 +33,7 @@ const storage = multer.diskStorage({
 
   let upload = multer({ storage: storage })
 
-fileRouter.post('/', authcheck, upload.single('file'), (req, res) => {
+fileRouter.post('/', authcheck, roleCheck("ADMIN", "MODERATOR"), upload.single('file'), (req, res) => {
     res.status(200).json({type: "ok", message: "File Uploaded"})
 })
 
@@ -41,7 +42,7 @@ fileRouter.get('/braggels', (req, res) =>{
     res.status(200).json(files)
 })
 
-fileRouter.delete('/braggels',authcheck, (req, res) => {
+fileRouter.delete('/braggels',authcheck, roleCheck("ADMIN", "MODERATOR"), (req, res) => {
     const filename = req.query.filename
     const path = req.query.path
     fs.unlink(publicPath + "/pdf/" + path + "/" + filename, (err) => {

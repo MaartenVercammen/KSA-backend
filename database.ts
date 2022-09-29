@@ -1,6 +1,7 @@
 ﻿const { Pool } = require("pg");
 import * as dotenv from "dotenv";
-dotenv.config();
+import path from 'path'
+dotenv.config({ path: path.join(__dirname,  `./.env.${process.env.NODE_ENV}`) });
 
 setTimeout(_ => _, 5000)
 

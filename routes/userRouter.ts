@@ -1,11 +1,12 @@
 ﻿import express, { Request, Response, Handler } from "express";
 import * as userModel from "../model/user";
 import jwt from 'jsonwebtoken';
-import authcheck from "../model/authcheck";
+import authcheck from "../middleware/authcheck";
+import roleCheck from "../middleware/roleCheck";
 
 const userRouter = express.Router();
 
-userRouter.get("/",authcheck, (req: Request, res: Response) => {
+userRouter.get("/",authcheck, roleCheck('ADMIN'), (req: Request, res: Response) => {
   userModel.getUsers((users, err) => {
     if (err) {
       res.status(500).json({ message: err.message, type: "error" });

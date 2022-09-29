@@ -5,7 +5,6 @@ import * as bodyParser from "body-parser";
 import userRouter from "./routes/userRouter";
 import fileRouter from "./routes/fileRouter";
 import path from "path";
-import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 
 dotenv.config({ path: path.join(__dirname,  `./.env.${process.env.NODE_ENV}`) });
