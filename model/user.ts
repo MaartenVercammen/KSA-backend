@@ -17,6 +17,22 @@ async function getUsers(onResult: (users: user[], err: Error) => void) {
   }
 }
 
+async function postUser(user: user, onResult: (err: Error) => void) {
+  const query =
+    "insert into ksa.user (name, password, email, role) values ($1,$2,$3, (select id from ksa.roles where name = $4))";
+  try {
+    await connectionPool.query(query, [
+      user.name,
+      hash(user.password),
+      user.email,
+      user.role,
+    ]);
+    onResult(null);
+  } catch (error) {
+    onResult(error);
+  }
+}
+
 async function login(
   email: string,
   password: string,
@@ -34,4 +50,4 @@ async function login(
   }
 }
 
-export { getUsers, login };
+export { getUsers, login, postUser };
