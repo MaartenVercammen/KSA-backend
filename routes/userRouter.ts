@@ -22,6 +22,18 @@ userRouter.get(
   }
 );
 
+userRouter.post("/", authcheck, roleCheck(Roles.ADMIN), (req, res) => {
+  const user = req.body;
+  console.log(user);
+  userModel.postUser(user, (err) => {
+    if (err) {
+      res.status(500).json({ type: "error", message: err.message });
+    } else {
+      res.status(200).json({ type: "ok", message: "user created" });
+    }
+  });
+});
+
 userRouter.post("/login", (req: Request, res: Response) => {
   const { email, password } = req.body;
   userModel.login(email, password, (user, err) => {
