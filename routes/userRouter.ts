@@ -34,6 +34,18 @@ userRouter.post('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
     });
 });
 
+userRouter.put('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
+    const user = req.body;
+    console.log(user);
+    userModel.updateUser(user, (err) => {
+        if (err) {
+            res.status(500).json({ type: 'error', message: err.message });
+        } else {
+            res.status(200).json({ type: 'ok', message: 'user updated' });
+        }
+    });
+});
+
 userRouter.delete('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
     const id: number = Number.parseInt(<string>req.query.id);
     userModel.deleteUser(id, (err) => {

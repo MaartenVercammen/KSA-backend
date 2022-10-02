@@ -28,6 +28,20 @@ async function postUser(user: user, onResult: (err: Error) => void) {
     }
 }
 
+async function updateUser(user: user, onResult: (err: Error) => void) {
+    const queryWithPassword =
+        'update ksa.user set name = $1, email = $2, password = $3, role = (select id from ksa.roles where name = $4) where id = $5';
+    const queryWithoutPassword =
+        'update ksa.user set name = $1, email = $2, role = (select id from ksa.roles where name = $4) where id = $5';
+    const query = user.password == '' ? queryWithoutPassword : queryWithPassword;
+    try {
+        await connectionPool.query(query, [user.name, user.email, '', user.role, user.id]);
+        onResult(null);
+    } catch (error) {
+        onResult(error);
+    }
+}
+
 const deleteUser = async (id: number, onResult: (err: Error) => void) => {
     const query = 'delete from ksa.user where id = $1';
     try {
@@ -55,4 +69,4 @@ async function login(
     }
 }
 
-export { getUsers, login, postUser, deleteUser };
+export { getUsers, login, postUser, deleteUser, updateUser };
