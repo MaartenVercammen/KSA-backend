@@ -21,4 +21,14 @@ const uploadPost = async (post: Post, onResult: (err: Error) => void) => {
     }
 };
 
-export { getPost, uploadPost };
+const deletePost = async (id: number, onResult: (err: Error) => void) => {
+    const query = 'delete from ksa.post where id = $1';
+    try {
+        await connectionPool.query(query, [id]);
+        onResult(null);
+    } catch (error) {
+        onResult(error);
+    }
+};
+
+export { getPost, uploadPost, deletePost };

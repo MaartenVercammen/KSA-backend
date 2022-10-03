@@ -23,7 +23,6 @@ postrouter.get('/', (req, res) => {
 });
 postrouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), (req, res) => {
     const post: Post = req.body;
-    console.log(req.body);
     postModel.uploadPost(post, (err) => {
         if (err) {
             res.status(500).json({ type: 'error', message: err.message });
@@ -32,5 +31,21 @@ postrouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGE
         }
     });
 });
+
+postrouter.delete(
+    '/',
+    authcheck,
+    roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL),
+    (req, res) => {
+        const id: number = Number.parseInt(<string>req.query.id);
+        postModel.deletePost(id, (err) => {
+            if (err) {
+                res.status(500).json({ type: 'error', message: err.message });
+            } else {
+                res.status(200).json({ type: 'ok', message: 'post deleted' });
+            }
+        });
+    }
+);
 
 export default postrouter;
