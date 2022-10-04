@@ -32,6 +32,17 @@ postrouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGE
     });
 });
 
+postrouter.put('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), (req, res) => {
+    const post: Post = req.body;
+    postModel.updatePost(post, (err) => {
+        if (err) {
+            res.status(500).json({ type: 'error', message: err.message });
+        } else {
+            res.status(200).json({ type: 'ok', message: 'post uploaded' });
+        }
+    });
+});
+
 postrouter.delete(
     '/',
     authcheck,
