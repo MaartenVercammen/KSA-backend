@@ -1,5 +1,5 @@
 ﻿import express, { Request, Response, Handler } from 'express';
-import * as userModel from '../model/user';
+import * as userModel from '../model/userModel';
 import jwt from 'jsonwebtoken';
 import authcheck from '../middleware/authcheck';
 import roleCheck from '../middleware/roleCheck';
@@ -24,7 +24,6 @@ userRouter.get(
 
 userRouter.post('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
     const user = req.body;
-    console.log(user);
     userModel.postUser(user, (err) => {
         if (err) {
             res.status(500).json({ type: 'error', message: err.message });
