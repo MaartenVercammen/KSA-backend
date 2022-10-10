@@ -34,8 +34,15 @@ async function updateUser(user: user, onResult: (err: Error) => void) {
     const queryWithoutPassword =
         'update ksa.user set name = $1, email = $2, role = (select id from ksa.roles where name = $4) where id = $5';
     const query = user.password == '' ? queryWithoutPassword : queryWithPassword;
+    console.log(query);
     try {
-        await connectionPool.query(query, [user.name, user.email, '', user.role, user.id]);
+        await connectionPool.query(query, [
+            user.name,
+            user.email,
+            hash(user.password),
+            user.role,
+            user.id,
+        ]);
         onResult(null);
     } catch (error) {
         onResult(error);
