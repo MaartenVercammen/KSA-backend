@@ -32,17 +32,11 @@ async function updateUser(user: user, onResult: (err: Error) => void) {
     const queryWithPassword =
         'update ksa.user set name = $1, email = $2, password = $3, role = (select id from ksa.roles where name = $4) where id = $5';
     const queryWithoutPassword =
-        'update ksa.user set name = $1, email = $2, role = (select id from ksa.roles where name = $4) where id = $5';
-    const query = user.password == '' ? queryWithoutPassword : queryWithPassword;
-    console.log(query);
+        'update ksa.user set name = $1, email = $2, role = (select id from ksa.roles where name = $3) where id = $4';
+    const query = user.password == undefined ? queryWithoutPassword : queryWithPassword;
     try {
-        await connectionPool.query(query, [
-            user.name,
-            user.email,
-            hash(user.password),
-            user.role,
-            user.id,
-        ]);
+        const data = user.password == undefined ? [user.name, user.email, user.role,user.id,] : [user.name,user.email,hash(user.password),user.role,user.id,]
+        await connectionPool.query(query, data);
         onResult(null);
     } catch (error) {
         onResult(error);
