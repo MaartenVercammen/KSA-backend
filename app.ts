@@ -6,7 +6,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
-import postrouter from './routes/postrouter';
+import postRouter from './routes/postRouter';
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', userRouter);
 app.use('/file', fileRouter);
-app.use('/post', postrouter);
+app.use('/post', postRouter);
 
 app.get('/status', (req, res) => {
   res.json({ message: 'Backend is running...' });
