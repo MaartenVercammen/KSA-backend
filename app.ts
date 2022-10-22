@@ -8,7 +8,7 @@ import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postrouter from './routes/postrouter';
 
-dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`) });
+dotenv.config();
 
 const logger = require('./modules/logger')();
 
