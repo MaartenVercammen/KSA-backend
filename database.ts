@@ -1,9 +1,11 @@
-﻿const { Pool } = require("pg");
-import * as dotenv from "dotenv";
-import path from 'path'
-dotenv.config({ path: path.join(__dirname,  `./.env.${process.env.NODE_ENV}`) });
+import * as dotenv from 'dotenv';
+import path from 'path';
 
-setTimeout(_ => _, 5000)
+const { Pool } = require('pg');
+
+dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`) });
+
+setTimeout((_) => _, 5000);
 
 const connectionPool = new Pool({
   user: process.env.DB_USER,
@@ -13,5 +15,4 @@ const connectionPool = new Pool({
   host: process.env.DB_IP,
 });
 
-
-export { connectionPool };
+export default connectionPool;
