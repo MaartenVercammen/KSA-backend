@@ -10,6 +10,8 @@ import postrouter from './routes/postrouter';
 
 dotenv.config({ path: path.join(__dirname, `./.env.${process.env.NODE_ENV}`) });
 
+const logger = require('./modules/logger')();
+
 const app = express();
 
 app.use(
@@ -39,7 +41,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(process.env.APP_PORT, () => {
-  // TODO add logger
-  // eslint-disable-next-line
-  console.log(`Server is running on port ${process.env.APP_PORT}.`);
+  logger.info(`Server started on ${process.env.APP_PORT}`);
 });

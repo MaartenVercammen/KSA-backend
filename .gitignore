@@ -1,8 +1,6 @@
 ﻿.env.*
-/node_modules
-
-/react
-
-/public
-
-/SQL
+logs/
+node_modules/
+public/
+SQL/
+react/

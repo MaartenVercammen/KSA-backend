@@ -6,6 +6,7 @@ import roleCheck from '../middleware/roleCheck';
 import { Roles } from '../types';
 
 const userRouter = express.Router();
+const logger = require('../modules/logger')('userRouter');
 
 userRouter.get(
   '/',
@@ -35,9 +36,7 @@ userRouter.post('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
 
 userRouter.put('/', authcheck, roleCheck(Roles.ADMIN), (req, res) => {
   const user = req.body;
-  // TODO add logger
-  // eslint-disable-next-line
-  console.log(user);
+  logger.silly('User: %o', user);
   userModel.updateUser(user, (err) => {
     if (err) {
       res.status(500).json({ type: 'error', message: err.message });
@@ -69,15 +68,11 @@ userRouter.post('/login', (req: Request, res: Response) => {
       const token = jwt.sign(user[0], process.env.MY_SECRET, {
         expiresIn: '1h',
       });
-        // TODO add logger
-        // eslint-disable-next-line
-        console.log(`login from ${user[0].name} was succesfull`);
+      logger.debug(`login from ${user[0].name} was succesful`);
       res.cookie('token', token, { maxAge: 3600000 });
       return res.status(200).json({ type: 'valid', user: user[0] });
     }
-    // TODO add logger
-    // eslint-disable-next-line
-      console.log('login from failed');
+    logger.error('login from failed');
     return res.status(500).json({ type: 'error', message: 'Invalid Credantials' });
   });
 });
