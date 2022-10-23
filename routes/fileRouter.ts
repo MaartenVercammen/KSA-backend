@@ -7,11 +7,11 @@ import { Roles } from '../types';
 
 const fileRouter = express.Router();
 
-const publicPath = process.env.PUBLIC_PATH;
+const publicPath = process.env['PUBLIC_PATH'] || '';
 
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-    const addonpath = req.query.path;
+    const addonpath = req.query['path'];
     switch (file.mimetype) {
       case 'application/pdf':
         callBack(null, `${publicPath}/pdf/${addonpath}`);
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
         callBack(null, publicPath);
     }
   },
-  filename: (req, file, callBack) => {
+  filename: (_req, file, callBack) => {
     callBack(null, `${file.originalname}`);
   },
 });
@@ -37,13 +37,13 @@ fileRouter.post(
   authcheck,
   roleCheck(Roles.ADMIN, Roles.BRAGGEL, Roles.BONDS),
   upload.single('file'),
-  (req, res) => {
+  (_req, res) => {
     res.status(200).json({ type: 'ok', message: 'File Uploaded' });
   },
 );
 
 fileRouter.get('/braggels', (req, res) => {
-  const files = fs.readdirSync(`${publicPath}/pdf/${req.query.path}`);
+  const files = fs.readdirSync(`${publicPath}/pdf/${req.query['path']}`);
   res.status(200).json(files);
 });
 

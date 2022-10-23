@@ -6,11 +6,14 @@ import Post from '../model/postModel';
 
 const postRouter = express.Router();
 
-postRouter.get('/', async (req, res) => {
+postRouter.get('/', async (_req, res) => {
   try {
     const posts = await Post.getAll();
     return res.status(200).json(posts);
-  } catch (err) {
+  } catch (err: unknown) {
+    if (!(err instanceof Error)) {
+      return res.status(500).json({ message: 'Unknown error occurred!', type: 'error' });
+    }
     return res.status(500).json({ message: err.message, type: 'error' });
   }
 });
@@ -19,7 +22,10 @@ postRouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGE
   try {
     await Post.create(post);
     return res.status(200).json({ type: 'ok', message: 'post created' });
-  } catch (err) {
+  } catch (err: unknown) {
+    if (!(err instanceof Error)) {
+      return res.status(500).json({ message: 'Unknown error occurred!', type: 'error' });
+    }
     return res.status(500).json({ type: 'error', message: err.message });
   }
 });
@@ -29,17 +35,23 @@ postRouter.put('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL
   try {
     await Post.update(post);
     return res.status(200).json({ type: 'ok', message: 'post updated' });
-  } catch (err) {
+  } catch (err: unknown) {
+    if (!(err instanceof Error)) {
+      return res.status(500).json({ message: 'Unknown error occurred!', type: 'error' });
+    }
     return res.status(500).json({ type: 'error', message: err.message });
   }
 });
 
 postRouter.delete('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
-  const id = <string>req.query.id;
+  const id = <string>req.query['id'];
   try {
     await Post.deleteById(id);
     return res.status(200).json({ type: 'ok', message: 'post deleted' });
-  } catch (err) {
+  } catch (err: unknown) {
+    if (!(err instanceof Error)) {
+      return res.status(500).json({ message: 'Unknown error occurred!', type: 'error' });
+    }
     return res.status(500).json({ type: 'error', message: err.message });
   }
 });
