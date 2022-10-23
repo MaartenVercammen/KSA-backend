@@ -8,7 +8,6 @@ import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postRouter from './routes/postRouter';
 
-// TODO declare dotenv
 dotenv.config();
 
 const logger = require('./modules/logger')();
@@ -18,7 +17,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env['ORIGIN'],
+    origin: process.env.ORIGIN,
   }),
 );
 app.use(bodyParser.json());
@@ -41,6 +40,6 @@ app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(process.env?.['APP_PORT'], () => {
-  logger.info(`Server started on ${process.env['APP_PORT']}`);
+app.listen(process.env.APP_PORT, () => {
+  logger.info(`Server started on ${process.env.APP_PORT}`);
 });

@@ -68,7 +68,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
       logger.error('login from failed');
       return res.status(500).json({ type: 'error', message: 'Invalid Credantials' });
     }
-    const token = jwt.sign(authenticatedUser, process.env['MY_SECRET'] || '', {
+    const token = jwt.sign(authenticatedUser, process.env.MY_SECRET, {
       expiresIn: '1h',
     });
     logger.debug(`login from ${authenticatedUser.name} was succesful`);

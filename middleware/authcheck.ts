@@ -8,7 +8,7 @@ const authcheck = (req: Request, res: Response, next: NextFunction) => {
   if (req.path === '/user/login') {
     next();
   } else if (token !== undefined) {
-    const user = jwt.verify(token, process.env['MY_SECRET'] || '');
+    const user = jwt.verify(token, process.env.MY_SECRET);
     if (user) {
       logger.debug(`User:${user.toString()} asked for ${req.path}`);
       // TODO rework middleware

@@ -7,7 +7,7 @@ import { Roles } from '../types';
 
 const fileRouter = express.Router();
 
-const publicPath = process.env['PUBLIC_PATH'] || '';
+const publicPath = process.env.PUBLIC_PATH;
 
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
