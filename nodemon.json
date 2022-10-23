@@ -1,0 +1,7 @@
+{
+  "ext": "ts",
+  "delay": 3,
+  "execMap": {
+    "ts": "ts-node"
+  }
+}
