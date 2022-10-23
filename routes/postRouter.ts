@@ -1,6 +1,5 @@
 import express from 'express';
-import authcheck from '../middleware/authcheck';
-import roleCheck from '../middleware/roleCheck';
+import { accessVerification } from '../modules/middlewares';
 import { Post as IPost, Roles } from '../types';
 import Post from '../model/postModel';
 
@@ -17,7 +16,7 @@ postRouter.get('/', async (_req, res) => {
     return res.status(500).json({ message: err.message, type: 'error' });
   }
 });
-postRouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
+postRouter.post('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
   const post: IPost = req.body;
   try {
     await Post.create(post);
@@ -30,7 +29,7 @@ postRouter.post('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGE
   }
 });
 
-postRouter.put('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
+postRouter.put('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
   const post: IPost = req.body;
   try {
     await Post.update(post);
@@ -43,7 +42,7 @@ postRouter.put('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL
   }
 });
 
-postRouter.delete('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
+postRouter.delete('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
   const id = <string>req.query['id'];
   try {
     await Post.deleteById(id);

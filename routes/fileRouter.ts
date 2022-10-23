@@ -1,8 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import fs from 'fs';
-import authcheck from '../middleware/authcheck';
-import roleCheck from '../middleware/roleCheck';
+import { accessVerification } from '../modules/middlewares';
 import { Roles } from '../types';
 
 const fileRouter = express.Router();
@@ -34,8 +33,7 @@ const upload = multer({ storage });
 
 fileRouter.post(
   '/',
-  authcheck,
-  roleCheck(Roles.ADMIN, Roles.BRAGGEL, Roles.BONDS),
+  accessVerification(Roles.ADMIN, Roles.BRAGGEL, Roles.BONDS),
   upload.single('file'),
   (_req, res) => {
     res.status(200).json({ type: 'ok', message: 'File Uploaded' });
@@ -49,8 +47,7 @@ fileRouter.get('/braggels', (req, res) => {
 
 fileRouter.delete(
   '/braggels',
-  authcheck,
-  roleCheck(Roles.ADMIN, Roles.BRAGGEL, Roles.BONDS),
+  accessVerification(Roles.ADMIN, Roles.BRAGGEL, Roles.BONDS),
   (req, res) => {
     const { filename } = req.query;
     const { path: pathFromQuery } = req.query;

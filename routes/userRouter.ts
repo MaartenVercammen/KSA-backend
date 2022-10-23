@@ -1,14 +1,13 @@
 import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../model/userModel';
-import authcheck from '../middleware/authcheck';
-import roleCheck from '../middleware/roleCheck';
+import { accessVerification } from '../modules/middlewares';
 import { Roles } from '../types';
 
 const userRouter = express.Router();
 const logger = require('../modules/logger')('userRouter');
 
-userRouter.get('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS), async (_req: Request, res: Response) => {
+userRouter.get('/', accessVerification(Roles.ADMIN, Roles.BONDS), async (_req: Request, res: Response) => {
   try {
     const users = await User.getAll();
     return res.status(200).json(users);
@@ -20,7 +19,7 @@ userRouter.get('/', authcheck, roleCheck(Roles.ADMIN, Roles.BONDS), async (_req:
   }
 });
 
-userRouter.post('/', authcheck, roleCheck(Roles.ADMIN), async (req, res) => {
+userRouter.post('/', accessVerification(Roles.ADMIN), async (req, res) => {
   const user = req.body;
   try {
     await User.create(user);
@@ -33,7 +32,7 @@ userRouter.post('/', authcheck, roleCheck(Roles.ADMIN), async (req, res) => {
   }
 });
 
-userRouter.put('/', authcheck, roleCheck(Roles.ADMIN), async (req, res) => {
+userRouter.put('/', accessVerification(Roles.ADMIN), async (req, res) => {
   const user = req.body;
   try {
     await User.update(user);
@@ -46,7 +45,7 @@ userRouter.put('/', authcheck, roleCheck(Roles.ADMIN), async (req, res) => {
   }
 });
 
-userRouter.delete('/', authcheck, roleCheck(Roles.ADMIN), async (req, res) => {
+userRouter.delete('/', accessVerification(Roles.ADMIN), async (req, res) => {
   const id = <string>req.query['id'];
   try {
     await User.deleteById(id);
@@ -64,9 +63,7 @@ userRouter.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const authenticatedUser = await User.authenticate(email, password);
     if (authenticatedUser === undefined) {
-      // TODO return 401
-      logger.error('login from failed');
-      return res.status(500).json({ type: 'error', message: 'Invalid Credantials' });
+      return res.sendStatus(401);
     }
     const token = jwt.sign(authenticatedUser, process.env.MY_SECRET, {
       expiresIn: '1h',
