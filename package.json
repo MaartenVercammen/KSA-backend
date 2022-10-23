@@ -5,13 +5,13 @@
   "main": "app.ts",
   "type": "commonjs",
   "scripts": {
+    "build": "tsc",
     "database:migrate": "node -r dotenv/config node_modules/knex/bin/cli.js --cwd database/ migrate:latest",
     "database:rollback": "node -r dotenv/config node_modules/knex/bin/cli.js --cwd database/ migrate:rollback",
     "database:seed": "node -r dotenv/config node_modules/knex/bin/cli.js knex --cwd database/ seed:run",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
-    "start": "set NODE_ENV=development && nodemon -L --delay 500ms app.ts ",
-    "build": "set NODE_ENV=production && nodemon -L --delay 500ms app.ts "
+    "start": "set NODE_ENV=development && nodemon -L --delay 500ms app.ts "
   },
   "author": "Maarten Vercammen",
   "license": "ISC",
