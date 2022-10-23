@@ -28,7 +28,7 @@ services:
       - database:database
     depends_on:
       - database
-    command: node dist/app.js
+    command: node --require dotenv/config dist/app.js
 volumes:
   database-data:
   web-logs:

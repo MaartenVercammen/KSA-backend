@@ -1,9 +1,4 @@
 import type { Knex } from 'knex';
-import dotenv from 'dotenv';
-import path from 'path';
-
-// TODO rework app startup
-dotenv.config({ path: path.resolve('.env') });
 
 const config: { [key: string]: Knex.Config } = {
   development: {

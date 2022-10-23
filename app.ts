@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
@@ -7,8 +6,6 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postRouter from './routes/postRouter';
-
-dotenv.config();
 
 const logger = require('./modules/logger')();
 
