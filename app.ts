@@ -6,8 +6,9 @@ import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postRouter from './routes/postRouter';
 import { loggerMiddleware } from './modules/middlewares';
+import newLogger from './modules/logger';
 
-const logger = require('./modules/logger')();
+const logger = newLogger();
 
 const app = express();
 

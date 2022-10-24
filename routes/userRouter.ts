@@ -2,10 +2,11 @@ import express, { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../model/userModel';
 import { accessVerification } from '../modules/middlewares';
+import newLogger from '../modules/logger';
 import { Roles } from '../types';
 
 const userRouter = express.Router();
-const logger = require('../modules/logger')('userRouter');
+const logger = newLogger('userRouter');
 
 userRouter.get('/', accessVerification(Roles.ADMIN, Roles.BONDS), async (_req: Request, res: Response) => {
   try {

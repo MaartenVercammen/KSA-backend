@@ -1,8 +1,9 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import type { NextFunction, Request, Response } from 'express';
 import type { User } from '../types';
+import newLogger from './logger';
 
-const requestLogger = require('./logger')('request');
+const requestLogger = newLogger('request');
 
 export const loggerMiddleware = (req: Request, _res: Response, next: NextFunction) => {
   requestLogger.silly(`[${req.method}] ${req.url}`);

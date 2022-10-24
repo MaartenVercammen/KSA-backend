@@ -2,6 +2,9 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import type { User as IUser } from '../types';
 import knex from '../database/knexconfig';
+import newLogger from '../modules/logger';
+
+const logger = newLogger('User');
 
 export default class {
   static async create(user: IUser) : Promise<IUser> {

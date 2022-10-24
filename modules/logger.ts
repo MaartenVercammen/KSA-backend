@@ -18,7 +18,7 @@ const prettyPrint = ({
 const errorLog = path.join(logDir, process.env.ERROR_LOG_FILE || 'error.log');
 const level = process.env.LOG_LEVEL || 'error';
 
-module.exports = (className = 'global') => {
+export default (className = 'global') => {
   const logger = createLogger({
     format: format.combine(
       format.label({ label: className }),
