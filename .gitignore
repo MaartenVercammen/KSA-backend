@@ -1,7 +1,4 @@
 ﻿.env
 logs/
 node_modules/
-public/
-SQL/
-react/
 dist/
