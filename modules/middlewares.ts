@@ -2,7 +2,13 @@ import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import type { NextFunction, Request, Response } from 'express';
 import type { User } from '../types';
 
-// eslint-disable-next-line import/prefer-default-export
+const requestLogger = require('./logger')('request');
+
+export const loggerMiddleware = (req: Request, _res: Response, next: NextFunction) => {
+  requestLogger.silly(`[${req.method}] ${req.url}`);
+  next();
+};
+
 export const accessVerification = (...allowedRoles: string[]) => (
   req: Request,
   res: Response,

@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postRouter from './routes/postRouter';
+import { loggerMiddleware } from './modules/middlewares';
 
 const logger = require('./modules/logger')();
 
@@ -20,6 +21,8 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(loggerMiddleware);
 
 app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
