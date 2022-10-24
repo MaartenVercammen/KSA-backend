@@ -37,6 +37,6 @@ app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(process.env.APP_PORT, () => {
-  logger.info(`Server started on ${process.env.APP_PORT}`);
+app.listen(process.env.SERVER_PORT, () => {
+  logger.info(`Server started on ${process.env.SERVER_PORT}`);
 });

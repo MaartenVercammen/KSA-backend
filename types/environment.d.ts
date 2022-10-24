@@ -2,7 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: string
-      APP_PORT: number
+      SERVER_PORT: number
       BCRYPT_SALT_ROUNDS: number,
       MY_SECRET: string
       PUBLIC_PATH: string
