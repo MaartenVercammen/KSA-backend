@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { v4 as uuid } from 'uuid';
 import type { User as IUser } from '../types';
 import knex from '../database/knexconfig';
 
@@ -6,6 +7,7 @@ export default class {
   static async create(user: IUser) : Promise<IUser> {
     return knex('users').insert({
       ...user,
+      id: uuid(),
       password: bcrypt.hashSync(user.password, process.env.BCRYPT_SALT_ROUNDS),
     });
   }
