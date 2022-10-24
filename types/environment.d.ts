@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: string
       APP_PORT: number
+      BCRYPT_SALT_ROUNDS: number,
       MY_SECRET: string
       PUBLIC_PATH: string
       ORIGIN: string

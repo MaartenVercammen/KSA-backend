@@ -15,6 +15,7 @@
   "author": "Maarten Vercammen",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.0",
     "cgi-express": "^0.1.1",
     "cookie-parser": "^1.4.6",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@tsconfig/node18-strictest": "^1.0.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",

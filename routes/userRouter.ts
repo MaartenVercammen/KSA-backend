@@ -61,10 +61,11 @@ userRouter.delete('/', accessVerification(Roles.ADMIN), async (req, res) => {
 userRouter.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const authenticatedUser = await User.authenticate(email, password);
+    const authenticatedUser = await User.authenticateAndGet(email, password);
     if (authenticatedUser === undefined) {
       return res.sendStatus(401);
     }
+    // TODO review attributes
     const token = jwt.sign(authenticatedUser, process.env.MY_SECRET, {
       expiresIn: '1h',
     });
