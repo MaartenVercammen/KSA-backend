@@ -8,7 +8,7 @@
     "build": "tsc",
     "database:migrate": "node -r dotenv/config node_modules/knex/bin/cli.js --cwd database/ migrate:latest",
     "database:rollback": "node -r dotenv/config node_modules/knex/bin/cli.js --cwd database/ migrate:rollback",
-    "database:seed": "node -r dotenv/config node_modules/knex/bin/cli.js knex --cwd database/ seed:run",
+    "database:seed": "node -r dotenv/config node_modules/knex/bin/cli.js --cwd database/ seed:run",
     "lint": "eslint .",
     "start": "nodemon --config nodemon.json --require dotenv/config app.ts "
   },
