@@ -1,6 +1,4 @@
 import express, { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import multer from 'multer';
 import User from '../model/userModel';
 import { accessVerification } from '../modules/middlewares';
 import newLogger from '../modules/logger';
@@ -72,46 +70,6 @@ userRouter.delete('/', accessVerification(Roles.ADMIN), async (req, res) => {
     logger.error(`[delete] ${err.message}`);
     return res.status(500).json({ type: 'error', message: err.message });
   }
-});
-
-userRouter.post('/login', multer().none(), async (req: Request, res: Response) => {
-  try {
-    logger.silly('[login] Hello!');
-    const { body: { email, password } } = req;
-    const authenticatedUser = await User.authenticateAndGet(email, password);
-    if (authenticatedUser === undefined) {
-      logger.debug('[login] authenticatedUser is undefined, so unauthorized!');
-      return res.sendStatus(401);
-    }
-    const {
-      firstName, lastName, email: foundEmail, role,
-    } = authenticatedUser;
-    const token = jwt.sign({
-      firstName, lastName, email: foundEmail, role,
-    }, process.env.MY_SECRET, {
-      expiresIn: '1h',
-    });
-    logger.debug(`[login] attempt by ${authenticatedUser.email} was successful!`);
-    logger.silly(`[login] token for ${authenticatedUser.email}: ${token}`);
-    res.cookie('token', token, { maxAge: 3600000 });
-    // TODO should this really be returned?
-    return res.status(200).json({
-      type: 'valid',
-      user: {
-        firstName, lastName, email: foundEmail, role,
-      },
-    });
-  } catch (err: unknown) {
-    if (!(err instanceof Error)) {
-      return res.status(500).json({ message: 'Unknown error occurred!', type: 'error' });
-    }
-    return res.status(500).json({ message: err.message, type: 'error' });
-  }
-});
-
-userRouter.delete('/logout', (_req: Request, res: Response) => {
-  res.clearCookie('token');
-  res.status(200).json({ type: 'succes', message: 'token cleared' });
 });
 
 export default userRouter;

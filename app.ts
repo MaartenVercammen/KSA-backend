@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import authRouter from './routes/authRouter';
 import userRouter from './routes/userRouter';
 import fileRouter from './routes/fileRouter';
 import postRouter from './routes/postRouter';
@@ -32,6 +33,7 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/file', fileRouter);
 app.use('/post', postRouter);
