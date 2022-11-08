@@ -26,3 +26,10 @@ export interface Post {
   content: string;
   date: Date;
 }
+
+export interface Magazine {
+  id: string,
+  title: string,
+  type: string,
+  path: string,
+}
