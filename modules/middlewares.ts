@@ -17,6 +17,14 @@ if (!fs.existsSync(uploadDirectory)) {
   fs.mkdirSync(uploadDirectory);
 }
 
+if (!fs.existsSync(`${uploadDirectory}/magazines/monthly`)) {
+  fs.mkdirSync(`${uploadDirectory}/magazines/monthly`, { recursive: true });
+}
+
+if (!fs.existsSync(`${uploadDirectory}/magazines/specials`)) {
+  fs.mkdirSync(`${uploadDirectory}/magazines/specials`, { recursive: true });
+}
+
 export const loggerMiddleware = (req: Request, _res: Response, next: NextFunction) => {
   requestLogger.silly(`[${req.method}] ${req.url}`);
   next();
@@ -49,27 +57,24 @@ export const accessVerification = (...allowedRoles: string[]) => (
   return res.sendStatus(401);
 };
 
-export const upload = multer({
+export const uploadMagazine = multer({
   storage: multer.diskStorage({
-    destination: (req, file, callBack) => {
-      const { query: { fileType } } = req;
-      // TODO enhance for errors
-      fs.mkdirSync(`${uploadDirectory}/pdf/${fileType}`, { recursive: true });
-      switch (file.mimetype) {
-        case 'application/pdf':
-          callBack(null, `${uploadDirectory}/pdf/${fileType}`);
-          break;
-        case 'image/jpeg':
-        case 'image/png':
-        case 'image/webp':
-          callBack(null, `${uploadDirectory}/images`);
-          break;
-        default:
-          callBack(null, uploadDirectory);
+    destination: (req, _file, callback) => {
+      const { body: { type } } = req;
+      if (type === 'monthly') {
+        callback(null, `${uploadDirectory}/magazines/monthly`);
+      } else if (type === 'special') {
+        callback(null, `${uploadDirectory}/magazines/specials`);
       }
     },
-    filename: (_req, file, callBack) => {
-      callBack(null, `${file.originalname}`);
+    filename: (_req, file, callback) => {
+      callback(null, `${file.originalname}`);
     },
   }),
+  fileFilter: (_req, file, callback) => {
+    if (file.mimetype !== 'application/pdf') {
+      return callback(new Error('Only PDF files allowed!'));
+    }
+    return callback(null, true);
+  },
 });

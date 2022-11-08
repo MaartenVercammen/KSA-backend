@@ -8,7 +8,7 @@ const logger = newLogger('model.Magazine');
 export default class {
   static async create(magazine: IMagazine) : Promise<IMagazine> {
     logger.silly('[create] Hello!');
-    return knex('magazine').insert({
+    return knex('magazines').insert({
       ...magazine,
       id: uuid(),
     });
@@ -17,6 +17,13 @@ export default class {
   static async getAll() : Promise<IMagazine[]> {
     logger.silly('[getAll] Hello!');
     return knex<IMagazine>('magazines')
+      .select('*');
+  }
+
+  static async getAllOfType(type: string) : Promise<IMagazine[]> {
+    logger.silly('[getAllOfType] Hello!');
+    return knex<IMagazine>('magazines')
+      .where({ type })
       .select('*');
   }
 

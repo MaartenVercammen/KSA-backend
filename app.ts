@@ -4,7 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRouter';
 import userRouter from './routes/userRouter';
-import fileRouter from './routes/fileRouter';
+import magazineRouter from './routes/magazineRouter';
 import postRouter from './routes/postRouter';
 import { loggerMiddleware } from './modules/middlewares';
 import newLogger from './modules/logger';
@@ -36,7 +36,7 @@ app.get('/', (_req, res) => {
 app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
-app.use('/file', fileRouter);
+app.use('/magazine', magazineRouter);
 app.use('/post', postRouter);
 
 app.get('/status', (_req, res) => {
