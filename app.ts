@@ -33,6 +33,7 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.use('/uploads', express.static('uploads'));
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/file', fileRouter);

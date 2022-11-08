@@ -4,6 +4,7 @@ declare global {
       NODE_ENV: string
       SERVER_PORT: number
       BCRYPT_SALT_ROUNDS: number,
+      UPLOAD_DIR: string,
       MY_SECRET: string
       PUBLIC_PATH: string
       ORIGIN: string
