@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import multer from 'multer';
 import User from '../model/userModel';
 import { accessVerification } from '../modules/middlewares';
 import newLogger from '../modules/logger';
@@ -23,11 +24,11 @@ userRouter.get('/', accessVerification(Roles.ADMIN, Roles.BONDS), async (_req: R
   }
 });
 
-userRouter.post('/', accessVerification(Roles.ADMIN), async (req, res) => {
+userRouter.post('/', accessVerification(Roles.ADMIN), multer().none(), async (req, res) => {
   try {
     logger.silly('[post] Hello!');
-    const { body: { user } } = req;
-    await User.create(user);
+    const { body: values } = req;
+    await User.create(values);
     return res.status(200).json({ type: 'success', message: 'user created' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
@@ -39,11 +40,11 @@ userRouter.post('/', accessVerification(Roles.ADMIN), async (req, res) => {
   }
 });
 
-userRouter.put('/', accessVerification(Roles.ADMIN), async (req, res) => {
+userRouter.put('/', accessVerification(Roles.ADMIN), multer().none(), async (req, res) => {
   try {
     logger.silly('[put] Hello!');
-    const { body: { user } } = req;
-    await User.update(user);
+    const { body: values } = req;
+    await User.update(values);
     return res.status(200).json({ type: 'success', message: 'user updated' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {

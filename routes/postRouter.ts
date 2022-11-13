@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import { accessVerification } from '../modules/middlewares';
 import { Roles } from '../types';
 import Post from '../model/postModel';
@@ -21,11 +22,11 @@ postRouter.get('/', async (_req, res) => {
     return res.status(500).json({ message: err.message, type: 'error' });
   }
 });
-postRouter.post('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
+postRouter.post('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), multer().none(), async (req, res) => {
   try {
     logger.silly('[post] Hello!');
-    const { body: { post } } = req;
-    await Post.create(post);
+    const { body: values } = req;
+    await Post.create(values);
     return res.status(200).json({ type: 'success', message: 'post created' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
@@ -37,11 +38,11 @@ postRouter.post('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL)
   }
 });
 
-postRouter.put('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), async (req, res) => {
+postRouter.put('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL), multer().none(), async (req, res) => {
   try {
     logger.silly('[put] Hello!');
-    const { body: { post } } = req;
-    await Post.update(post);
+    const { body: values } = req;
+    await Post.update(values);
     return res.status(200).json({ type: 'success', message: 'post updated' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
