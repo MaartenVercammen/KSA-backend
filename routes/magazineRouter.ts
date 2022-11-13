@@ -34,7 +34,7 @@ magazineRouter.post('/', accessVerification(Roles.ADMIN, Roles.BRAGGEL, Roles.BO
       path: file!.path,
     });
 
-    return res.status(200).json({ type: 'ok', message: 'File Uploaded' });
+    return res.status(200).json({ type: 'success', message: 'File Uploaded' });
   });
 });
 
@@ -63,7 +63,7 @@ magazineRouter.delete('/', accessVerification(Roles.ADMIN, Roles.BRAGGEL, Roles.
     if (magazine) {
       fs.unlinkSync(magazine.path);
     }
-    return res.status(200).json({ type: 'ok', message: 'Magazine deleted' });
+    return res.status(200).json({ type: 'success', message: 'Magazine deleted' });
   } catch (err) {
     if (!(err instanceof Error)) {
       logger.error('[delete] Critical error occurred', err);

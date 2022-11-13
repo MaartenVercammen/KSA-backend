@@ -26,7 +26,7 @@ postRouter.post('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL)
     logger.silly('[post] Hello!');
     const { body: { post } } = req;
     await Post.create(post);
-    return res.status(200).json({ type: 'ok', message: 'post created' });
+    return res.status(200).json({ type: 'success', message: 'post created' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[post] Critical error occurred', err);
@@ -42,7 +42,7 @@ postRouter.put('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGEL),
     logger.silly('[put] Hello!');
     const { body: { post } } = req;
     await Post.update(post);
-    return res.status(200).json({ type: 'ok', message: 'post updated' });
+    return res.status(200).json({ type: 'success', message: 'post updated' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[put] Critical error occurred', err);
@@ -59,7 +59,7 @@ postRouter.delete('/', accessVerification(Roles.ADMIN, Roles.BONDS, Roles.BRAGGE
     const { body: { post: { id, title } } } = req;
     logger.debug('[delete] Post with title `%s` (id: `%s`) will be deleted!', title, id);
     await Post.deleteById(id);
-    return res.status(200).json({ type: 'ok', message: 'post deleted' });
+    return res.status(200).json({ type: 'success', message: 'post deleted' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[delete] Critical error occurred', err);

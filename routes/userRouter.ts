@@ -28,7 +28,7 @@ userRouter.post('/', accessVerification(Roles.ADMIN), async (req, res) => {
     logger.silly('[post] Hello!');
     const { body: { user } } = req;
     await User.create(user);
-    return res.status(200).json({ type: 'ok', message: 'user created' });
+    return res.status(200).json({ type: 'success', message: 'user created' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[post] Critical error occurred', err);
@@ -44,7 +44,7 @@ userRouter.put('/', accessVerification(Roles.ADMIN), async (req, res) => {
     logger.silly('[put] Hello!');
     const { body: { user } } = req;
     await User.update(user);
-    return res.status(200).json({ type: 'ok', message: 'user updated' });
+    return res.status(200).json({ type: 'success', message: 'user updated' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[put] Critical error occurred', err);
@@ -61,7 +61,7 @@ userRouter.delete('/', accessVerification(Roles.ADMIN), async (req, res) => {
     const { body: { user: { id, email } } } = req;
     logger.debug('[delete] User with e-mail `%s` (id: `%s`) will be deleted!', email, id);
     await User.deleteById(id);
-    return res.status(200).json({ type: 'ok', message: 'user deleted' });
+    return res.status(200).json({ type: 'success', message: 'user deleted' });
   } catch (err: unknown) {
     if (!(err instanceof Error)) {
       logger.error('[delete] Critical error occurred', err);
