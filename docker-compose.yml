@@ -21,6 +21,8 @@ services:
       - ./.env:/app/.env
       - ./dist:/app/dist
       - ./node_modules:/app/node_modules
+      - ${DOCKER_HOST_WEBAPP_ROOT:-./public}:/app/public
+      - ${DOCKER_HOST_UPLOAD_DIR:-./uploads}:${UPLOAD_DIR:-/app/uploads}
       - web-logs:${LOG_DIR:-/app/logs}
     ports:
       - ${SERVER_PORT}:${DOCKER_HOST_SERVER_PORT}
