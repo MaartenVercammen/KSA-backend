@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRouter';
 import userRouter from './routes/userRouter';
@@ -29,22 +28,14 @@ app.use(express.static('public'));
 
 app.use(loggerMiddleware);
 
-app.get('/', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.use('/uploads', express.static('uploads'));
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-app.use('/magazine', magazineRouter);
-app.use('/post', postRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/magazine', magazineRouter);
+app.use('/api/post', postRouter);
 
 app.get('/status', (_req, res) => {
   res.json({ message: 'Backend is running...' });
-});
-
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(process.env.SERVER_PORT, () => {
